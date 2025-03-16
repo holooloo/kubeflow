@@ -1,0 +1,40 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: configure-kubernetes-oidc-issuer-jwks-in-requestauthentication
+  namespace: kaas-istio
+spec:
+  template:
+    metadata:
+      labels: {}
+    spec:
+      containers:
+      - command:
+        - /script.sh
+        envFrom:
+        - configMapRef:
+            name: configure-self-signed-kubernetes-oidc-issuer-envs-hkmccmbbb8
+        image: curlimages/curl
+        name: configure-kubernetes-oidc-issuer-jwks-in-requestauthentication
+        resources: {}
+        volumeMounts:
+        - mountPath: /script.sh
+          name: script
+          subPath: script.sh
+      restartPolicy: OnFailure
+      serviceAccountName: self-signed-kubernetes-oidc-issuer-configurator
+      volumes:
+      - configMap:
+          defaultMode: 511
+          items:
+          - key: script.sh
+            path: script.sh
+          name: configure-self-signed-kubernetes-oidc-issuer-script-m6tbg9g4t9
+        name: script
+      tolerations:
+      - effect: NoSchedule
+        key: node-group
+        operator: Equal
+        value: kaas
+  ttlSecondsAfterFinished: 0

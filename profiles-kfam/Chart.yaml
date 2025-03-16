@@ -1,0 +1,7 @@
+apiVersion: v2
+name: profiles-kfam
+description: A Helm chart for Kubernetes
+ charts do not define any templates and therefore cannot be deployed.
+type: application
+version: 0.1.0
+appVersion: "1.16.0"

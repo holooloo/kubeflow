@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+data:
+  M2M_TOKEN_ISSUER: https://kubernetes.default.svc.cluster.local
+kind: ConfigMap
+metadata:
+  name: istio-m2m-params

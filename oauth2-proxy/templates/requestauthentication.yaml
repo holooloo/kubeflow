@@ -1,0 +1,15 @@
+---
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: m2m-token-issuer
+  namespace: kaas-istio
+spec:
+  jwtRules:
+  - forwardOriginalToken: true
+    issuer: https://kubernetes.default.svc.cluster.local
+    outputClaimToHeaders:
+    - claim: sub
+      header: x-auth-request-user
+    - claim: sub
+      header: kubeflow-userid

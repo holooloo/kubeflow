@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: vault-pki-bostongene-internal
+    external-dns.alpha.kubernetes.io/ttl: "300"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "32k"
+  name: kubeflow
+  namespace: kaas-istio
+spec:
+  ingressClassName: nginx-private
+  rules:
+  - host: kubeflow.nordrassil.eks.aws.bostongene.internal
+    http:
+      paths:
+      - backend:
+          service:
+            name: istio-ingressgateway
+            port:
+              name: http2
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - kubeflow.nordrassil.eks.aws.bostongene.internal
+    secretName: kubeflow-nordrassil-eks-aws-bostongene-internal-tls
